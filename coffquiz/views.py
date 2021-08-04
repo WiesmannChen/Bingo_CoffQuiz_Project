@@ -178,3 +178,7 @@ def visitor_cookie_handler(request):
         request.session['last_visit'] = last_visit_cookie
         
     request.session['visits'] = visits
+
+@login_required
+def restricted(request):
+    return render(request, 'coffquiz/restricted.html')
