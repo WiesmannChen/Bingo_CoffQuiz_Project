@@ -10,8 +10,10 @@ urlpatterns = [
     path('coffee/articles/<slug:article_title_slug>/', views.show_article, name='show_article'),
     path('add_coffee/', views.add_coffee, name='add_coffee'),
     path('coffee/<slug:coffee_name_slug>/add_article/', views.add_article, name='add_article'),
-    path('register/', views.register, name='register'),
-    path('login/', views.user_login, name='login'),
+    #path('register/', views.register, name='register'),
+    #path('login/', views.user_login, name='login'),
     path('my_account/', views.my_account, name='my_account'),
-    path('logout/', views.user_logout, name='logout'),
+    #path('logout/', views.user_logout, name='logout'),
+    
+
 ]
