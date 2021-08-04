@@ -11,7 +11,12 @@
 
 {% block body_block %}
     {% if coffee %}
-        <h1>{{ coffee.name}}</h1>
+        <!-- <h1>{{ coffee.name}}</h1> -->
+        <div class="jumbotron p-4"> 
+            <div class="container"> 
+            <h1 class="jumbotron-heading">{{ coffee.name}}</h1>
+            </div> 
+           </div> 
         likes: {{ coffee.likes }}
         <p>{{ coffee.description }}</p>
         {% if articles %}

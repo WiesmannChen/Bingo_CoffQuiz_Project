@@ -6,8 +6,13 @@
 {% endblock %}
 
 {% block body_block %}
-    <h1>Add a Coffee</h1>
-    <div>
+    <!-- <h1>Add a Coffee</h1> -->
+    <div class="jumbotron p-4"> 
+        <div class="container"> 
+        <h1 class="jumbotron-heading">Add a Coffee</h1>
+        </div> 
+       </div> 
+    <!-- <div>
         <form id="coffee_form" method="post" action="{% url 'coffquiz:add_coffee' %}">
             {% csrf_token %}
             {% for hidden in form.hidden_fields %}
@@ -21,5 +26,24 @@
             {% endfor %}
             <input type="submit" name="submit" value="Create Coffee" />
         </form>
+    </div> -->
+    <div class="container"> 
+        <div class="row"> 
+            <form role="form" id="coffee_form" method="post" action="{% url 'coffquiz:add_coffee' %}">
+                {% csrf_token %} 
+                {% for hidden in form.hidden_fields %} 
+                    {{ hidden }} 
+                {% endfor %} 
+                {% for field in form.visible_fields %} 
+                    {{ field.errors }} 
+                    {{ field.help_text }}<br /> 
+                    {{ field }}<br /> 
+                    <div class="p-2"></div> 
+                {% endfor %} 
+                <br /> 
+                <button class="btn btn-primary" type="submit" name="submit">Create Coffee</button> 
+                <div class="p-5"></div> 
+        </form> 
     </div>
+</div> 
 {% endblock %}

@@ -1,17 +1,21 @@
-<ul>
+<ul class="nav flex-column">
     {% if coffeelist %}
-        {% for coffee in coffeelist %}
-            {% if coffee == current_coffee %}
-                <li>
-                <strong><a href="{% url 'coffquiz:show_coffee' coffee.slug %}">{{coffee.name}}</a></strong>
-                </li>
+        {% for c in coffeelist %}
+            {% if c == current_c %}
+            <li class="nav-item">
+                <a class="nav-link active" href="{% url 'cooffquiz:show_coffee' c.slug %}">
+                    <span data-feather="archive"></span>{{ c.name }}
+                </a>
+            </li>
             {% else %}
-                <li>
-                    <a href="{% url 'coffquiz:show_coffee' coffee.slug %}">{{coffee.name}}</a>
-                </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'coffquiz:show_coffee' c.slug %}">
+                    <span data-feather="archive"></span>{{ c.name }}
+                </a>
+            </li>
             {% endif %}
         {% endfor %}
     {% else %}
-        <li><strong>There are no coffee present.</strong></li>
+        <li class="nav-item">There are no coffeelist present.</li>
     {% endif %}
     </ul>
