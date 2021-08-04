@@ -1,0 +1,22 @@
+{% extends 'coffquiz/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    {% if article %}
+        {{ article.title }}
+    {% else %}
+        Unknown Article
+    {% endif %}
+{% endblock %}
+
+{% block body_block %}
+    {% if article %}
+        <h1>{{ article.title }}</h1>
+        views: {{ article.views }}
+        <p>{{ article.content }}</p>
+        {% if user.is_authenticated %}
+        {% endif %}
+    {% else %}
+        The specified article does not exist.
+    {% endif %}
+{% endblock %}

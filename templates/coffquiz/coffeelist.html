@@ -1,0 +1,17 @@
+<ul>
+    {% if coffeelist %}
+        {% for coffee in coffeelist %}
+            {% if coffee == current_coffee %}
+                <li>
+                <strong><a href="{% url 'coffquiz:show_coffee' coffee.slug %}">{{coffee.name}}</a></strong>
+                </li>
+            {% else %}
+                <li>
+                    <a href="{% url 'coffquiz:show_coffee' coffee.slug %}">{{coffee.name}}</a>
+                </li>
+            {% endif %}
+        {% endfor %}
+    {% else %}
+        <li><strong>There are no coffee present.</strong></li>
+    {% endif %}
+    </ul>

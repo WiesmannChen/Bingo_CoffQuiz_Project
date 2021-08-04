@@ -1,0 +1,32 @@
+{% extends 'coffquiz/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    {% if coffee %}
+        {{ coffee.name }}
+    {% else %}
+        Unknown Coffee
+    {% endif %}
+{% endblock %}
+
+{% block body_block %}
+    {% if coffee %}
+        <h1>{{ coffee.name}}</h1>
+        likes: {{ coffee.likes }}
+        <p>{{ coffee.description }}</p>
+        {% if articles %}
+            <ul>
+            {% for article in articles %}
+                <li><a href="{% url 'coffquiz:show_article' article.slug %}">{{ article.title }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <strong>No articles currently in this coffee.</strong><br />
+        {% endif %}
+        {% if user.is_authenticated %}
+            <a href="{% url 'coffquiz:add_article' coffee.slug %}">Add Article</a><br />
+        {% endif %}
+    {% else %}
+        The specified coffee does not exist.
+    {% endif %}
+{% endblock %}

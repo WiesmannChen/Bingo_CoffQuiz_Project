@@ -1,0 +1,50 @@
+{% extends 'coffquiz/base.html' %}
+{% load staticfiles %} 
+
+{% block title_block %}
+    Homepage
+{% endblock %}
+
+{% block body_block %}
+    <h1>Welcome to CoffQuiz!</h1>
+    <div>
+        {% if user.is_authenticated %}
+            Howdy {{ user.username }}!
+        {% else %}
+            Hey there partner!
+        {% endif %}
+        <br />
+        {{ introduction }}<br />
+    </div>
+
+    <div>
+        <h2>Most Liked Coffee Products</h2>
+        {% if coffeelist %}
+            <ul>
+            {% for coffee in coffeelist %}
+                <li>
+                    <a href="{% url 'coffquiz:show_coffee' coffee.slug %}">{{ coffee.name }}</a>
+                </li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <strong>There are no coffee present.</strong>
+        {% endif %}
+    </div>
+
+    <div>
+        <h2>Most Viewed Review Articles</h2>
+        {% if articles %}
+            <ul>
+            {% for article in articles %}
+                <li><a href="{% url 'coffquiz:show_article' article.slug %}">{{ article.title }}</a></li>
+            {% endfor %}
+            </ul>
+        {% else %}
+            <strong>There are no articles present.</strong>
+        {% endif %}
+    </div>
+    <img src="{% static 'images/logo.jpg' %}" alt="Picture of Logo" />
+{% endblock %}
+
+        

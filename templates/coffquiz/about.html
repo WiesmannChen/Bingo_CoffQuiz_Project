@@ -1,0 +1,15 @@
+{% extends 'coffquiz/base.html' %}
+{% load staticfiles %} 
+
+{% block title_block %}
+    About CoffQuiz
+{% endblock %}
+
+{% block body_block %}
+    <h1>Who are we?</h1>
+    <div>
+        <strong>We are a team of four from the University of Glasgow, using Django to develop this website, named Bingo.</strong><br />
+        <p>Visits: {{ visits }}</p>
+    </div>
+    <img src="{{ MEDIA_URL }}bingo.jpg" alt="Picture of team Bingo" />
+{% endblock %}
