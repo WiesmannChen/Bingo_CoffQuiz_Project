@@ -7,6 +7,7 @@ from datetime import datetime
 from coffquiz.models import Coffee, Article
 from coffquiz.forms import CoffeeForm, ArticleForm, UserForm, UserProfileForm
 from django.contrib.auth.models import User
+from coffquiz.bing_search import run_query
 
 def index(request):
     coffee_list = Coffee.objects.order_by('-likes')[:5]
@@ -182,3 +183,14 @@ def visitor_cookie_handler(request):
 @login_required
 def restricted(request):
     return render(request, 'coffquiz/restricted.html')
+
+def search(request):
+    result_list = []
+
+    if request.method == 'POST':
+        query = request.POST['query'].strip()
+
+        if query:
+            result_list = run_query(query)
+
+    return render(request, 'coffquiz/search.html', {'result_list': result_list})
