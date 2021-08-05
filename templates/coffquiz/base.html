@@ -32,10 +32,9 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item"><a class="nav-link" href="{% url 'coffquiz:index' %}">Home</a></li>
                         <li class="nav-item "><a class="nav-link" href="{% url 'coffquiz:about' %}">About</a></li>
-                        <li class="nav-item "><a class="nav-link" href="{% url 'coffquiz:search' %}">Search</a></li>
                         {% if user.is_authenticated %}
                         <li class="nav-item "><a class="nav-link" href="{% url 'coffquiz:restricted' %}">Restricted</a></li>
-                        
+                        <a class="nav-link" href="{% url 'coffquiz:profile' user.username %}">Profile</a>
                         <li class="nav-item"><a class="nav-link" href="{% url 'auth_logout' %}?next=/coffquiz/">Logout</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'coffquiz:add_coffee' %}">Add Coffee</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'auth_password_change' %}">Change Password</a></li>
@@ -64,7 +63,7 @@
                     <!-- FOOTER -->
                     <footer>
                         <p class="float-right"><a href="#">Back to top</a></p>
-                        <p>&copy; 2020 Tango With Django 2 &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
+                        <p>&copy; 2021 Bingo with CoffQuiz &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
                     </footer>
                 </main>
             </div>

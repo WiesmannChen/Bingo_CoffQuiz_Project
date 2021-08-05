@@ -9,7 +9,7 @@ class Coffee(models.Model):
     likes = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
     time = models.DateTimeField(default=timezone.now)
-    picture = models.ImageField(blank=True)
+    picture = models.ImageField(upload_to='coffee_images', blank=True)
     description = models.TextField(blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
@@ -32,7 +32,7 @@ class Article(models.Model):
     likes = models.IntegerField(default=0)
     views = models.IntegerField(default=0)
     time = models.DateTimeField(default=timezone.now)
-    picture = models.ImageField(blank=True)
+    picture = models.ImageField(upload_to='article_images', blank=True)
     content = models.TextField(blank=True)
 
     def save(self, *args, **kwargs):

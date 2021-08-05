@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from django.http import HttpResponse
+from django.views import View
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from datetime import datetime
-from coffquiz.models import Coffee, Article
+from coffquiz.models import Coffee, Article, UserProfile
 from coffquiz.forms import CoffeeForm, ArticleForm, UserForm, UserProfileForm
 from django.contrib.auth.models import User
 from coffquiz.bing_search import run_query
@@ -31,7 +33,7 @@ def show_coffee(request, coffee_name_slug):
     context_dict = {}
     try:
         coffee = Coffee.objects.get(slug=coffee_name_slug)
-        articles = Article.objects.filter(coffee=coffee)
+        articles = Article.objects.filter(coffee=coffee).order_by('-views')
 
         context_dict['coffee'] = coffee
         context_dict['articles'] = articles
@@ -39,7 +41,16 @@ def show_coffee(request, coffee_name_slug):
     except Coffee.DoesNotExist:
         context_dict['coffee'] = None
         context_dict['articles'] = None
-    
+
+    # Start search functionality code. 
+    if request.method == 'POST':
+        if request.method == 'POST':
+            query = request.POST['query'].strip()
+            
+            if query:
+                context_dict['result_list'] = run_query(query)
+                context_dict['query'] = query
+
     return render(request, 'coffquiz/coffee.html', context=context_dict)
 
 def show_article(request, article_title_slug):
@@ -184,13 +195,87 @@ def visitor_cookie_handler(request):
 def restricted(request):
     return render(request, 'coffquiz/restricted.html')
 
-def search(request):
-    result_list = []
+# def search(request):
+#     result_list = []
+
+#     if request.method == 'POST':
+#         query = request.POST['query'].strip()
+
+#         if query:
+#             result_list = run_query(query)
+
+#     return render(request, 'coffquiz/search.html', {'result_list': result_list})
+
+# This is used to record the number of views of the article
+def goto_article(request):
+    if request.method == 'GET':
+        article_id = request.GET.get('article_id')
+
+        try:
+            selected_article = Article.objects.get(slug=article_id)
+        except Article.DoesNotExist:
+            return redirect(reverse('coffquiz:index'))
+
+        selected_article.views = selected_article.views + 1
+        selected_article.save()
+
+        return redirect(reverse('coffquiz:show_article', kwargs={'article_title_slug':selected_article.slug}))
+
+    return redirect(reverse('coffquiz:index'))
+
+@login_required 
+def register_profile(request):
+    form = UserProfileForm()
 
     if request.method == 'POST':
-        query = request.POST['query'].strip()
+        form = UserProfileForm(request.POST, request.FILES)
 
-        if query:
-            result_list = run_query(query)
+        if form.is_valid():
+            user_profile = form.save(commit=False) 
+            user_profile.user = request.user 
+            user_profile.save()
 
-    return render(request, 'coffquiz/search.html', {'result_list': result_list})
+            return redirect(reverse('coffquiz:index')) 
+        else:
+            print(form.errors)
+
+    context_dict = {'form': form}
+    return render(request, 'coffquiz/profile_registration.html', context_dict)
+
+class ProfileView(View):
+    def get_user_details(self, username):
+        try:
+            user = User.objects.get(username=username) 
+        except User.DoesNotExist:
+            return None
+
+        user_profile = UserProfile.objects.get_or_create(user=user)[0]
+        form = UserProfileForm({'signature': user_profile.signature, 'avatar': user_profile.avatar}) 
+        return (user, user_profile, form) 
+        
+    @method_decorator(login_required) 
+    def get(self, request, username):
+        try:
+            (user, user_profile, form) = self.get_user_details(username) 
+        except TypeError:
+            return redirect(reverse('coffquiz:index')) 
+        
+        context_dict = {'user_profile': user_profile, 'selected_user': user, 'form': form} 
+        return render(request, 'coffquiz/profile.html', context_dict) 
+        
+    @method_decorator(login_required) 
+    def post(self, request, username):
+        try:
+            (user, user_profile, form) = self.get_user_details(username) 
+        except TypeError:
+            return redirect(reverse('coffquiz:index')) 
+        
+        form = UserProfileForm(request.POST, request.FILES, instance=user_profile)
+        if form.is_valid():
+            form.save(commit=True) 
+            return redirect('coffquiz:profile', user.username) 
+        else:
+            print(form.errors)
+        
+        context_dict = {'user_profile': user_profile, 'selected_user': user, 'form': form}
+        return render(request, 'coffquiz/profile.html', context_dict)
