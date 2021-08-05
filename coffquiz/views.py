@@ -313,3 +313,71 @@ class ProfileView(View):
         
         context_dict = {'user_profile': user_profile, 'selected_user': user, 'form': form}
         return render(request, 'coffquiz/profile.html', context_dict)
+
+
+
+
+
+# this class is for add likes
+class LikeCategoryView(View):
+    @method_decorator(login_required())
+    def get(self, request):
+        coffee_id = request.GET['coffee_id']
+
+        try:
+            coffee = Coffee.objects.get(id=int(coffee_id))
+        except Coffee.DoesNotExist:
+            return HttpResponse(-1)
+        except ValueError:
+            return HttpResponse(-1)
+
+        coffee.likes = coffee.likes + 1
+        coffee.save()
+
+        return HttpResponse(coffee.likes)
+
+
+'''
+    The following part is for coffee search function in siderbar
+'''
+
+
+def get_coffee_list(max_results=0, starts_with=''):
+    # this function is for get the coffee list
+    coffee_list = []
+
+    if starts_with:
+        coffee_list = Coffee.objects.filter(name__istartswith=starts_with)
+
+    print(coffee_list)
+
+    # if max_results is 0, all result will be returned
+    if max_results > 0:
+        if len(coffee_list) > max_results:
+            coffee_list = coffee_list[:max_results]
+
+    return coffee_list
+
+
+class CoffeeSuggestionView(View):
+    def get(self, request):
+        if 'suggestion' in request.GET:
+            suggestion = request.GET['suggestion']
+        else:
+            suggestion = ''
+
+        coffee_list = get_coffee_list(max_results=8,
+                                      starts_with=suggestion)
+
+        if len(coffee_list) == 0:
+            coffee_list = Coffee.objects.order_by('-likes')
+
+        return render(request,
+                      'coffquiz/coffeelist.html',
+                      {'coffeelist': coffee_list})
+
+
+
+
+
+
