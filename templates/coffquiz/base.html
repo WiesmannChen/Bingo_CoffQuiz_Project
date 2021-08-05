@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% load staticfiles %}
+{% load static %}
 {% load coffquiz_template_tags %}
 <html lang="en">
     <head>
@@ -50,9 +50,17 @@
         <div class="container-fluid">
             <div class="row">
                 <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-                    <div class="sidebar-sticky">
+
+                    <div class="w-75 ml-3">
+                        <input type="search"
+                               id="search-input"
+                               class="form-control ds-input"
+                               placeholder="Search..." />
+                    </div>
+
+                    <div class="sidebar-sticky" id="coffeelist-listing">
                     {% block sidebar_block %}
-                        {% get_coffee_list coffee %}
+                        {% get_coffee_list category %}
                     {% endblock %}
                     </div>
                 </nav>
@@ -68,7 +76,13 @@
                 </main>
             </div>
         </div>
-        
+
+
+        <!-- Coffquiz JavaScript-->
+        <script src="{% static "js/jquery-3.3.1.min.js" %}"  crossorigin="anonymous"></script>
+        <script src="{% static "js/coffquiz-jquery.js" %}" crossorigin="anonymous"></script>
+        <script src="{% static "js/coffquiz-ajax.js" %}" crossorigin="anonymous"></script>
+
         <!-- Bootstrap core JavaScript -->
         <!-- Placed at the end of the document so the pages load faster -->
         <script type="text/javascript">

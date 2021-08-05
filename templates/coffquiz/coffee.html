@@ -1,5 +1,5 @@
 {% extends 'coffquiz/base.html' %}
-{% load staticfiles %}
+{% load static %}
 
 {% block title_block %}
     {% if coffee %}
@@ -14,10 +14,22 @@
         <!-- <h1>{{ coffee.name}}</h1> -->
         <div class="jumbotron p-4"> 
             <div class="container"> 
-            <h1 class="jumbotron-heading">{{ coffee.name}}</h1>
+                <h1 class="jumbotron-heading">{{ coffee.name}}</h1>
+                <!-- This is part is for add likes-->
+                <div>
+                    <strong id="like_count">{{ coffee.likes }}</strong> likes
+                    {% if user.is_authenticated %}
+                        <button id="like_btn"
+                                data-coffeeid="{{ coffee.id }}"
+                                class="btn btn-primary btn-sm"
+                                type="button">
+                                <span data-feather="thumbs-up"></span>
+                                Like Coffee
+                        </button>
+                    {% endif %}
+                </div>
             </div> 
-        </div> 
-        likes: {{ coffee.likes }}
+        </div>
         <p>{{ coffee.description }}</p>
         {% if articles %}
             <ul>
