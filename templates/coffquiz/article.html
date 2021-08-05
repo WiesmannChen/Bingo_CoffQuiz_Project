@@ -21,12 +21,14 @@
     {% endif %}
 
     {% if comments %}
-    <ul>
+    <ul id="commentsOver">
         {% for comment in comments %}
-            <li>
-                <h3>{{ comment.user }}</h3>
-                <p>{{ comment.time }}</p></br>
-                {{ comment.comments }}
+            <li  class="commentStyle">
+                <h4>{{ comment.user }}</h4>
+                <div class="commentStyleLine">
+                    <p class="commentStyleContent">{{ comment.comments }}</p>
+                    <p class="commentStyleTime">time: {{ comment.time }}</p>
+                </div>
             </li>
         {% endfor %}
     </ul>

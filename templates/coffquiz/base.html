@@ -35,8 +35,7 @@
                         {% if user.is_authenticated %}
                         <li class="nav-item "><a class="nav-link" href="{% url 'coffquiz:restricted' %}">Restricted</a></li>
                         <a class="nav-link" href="{% url 'coffquiz:profile' user.username %}">Profile</a>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'auth_logout' %}?next=/coffquiz/">
-                            ut</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'auth_logout' %}?next=/coffquiz/">Logout</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'coffquiz:add_coffee' %}">Add Coffee</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'auth_password_change' %}">Change Password</a></li>
                         {% else %}
@@ -50,7 +49,7 @@
         
         <div class="container-fluid">
             <div class="row">
-                <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+                <nav class="col-md-2 d-none d-md-block bg-light sidebar background">
                     <div class="w-75 ml-3">
                         <input type="search"
                                id="search-input"
