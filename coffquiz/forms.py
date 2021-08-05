@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth.models import User
 from django.utils import timezone
-from coffquiz.models import Coffee, Article, UserProfile
+from coffquiz.models import Coffee, Article, UserProfile, Comment
 
 class CoffeeForm(forms.ModelForm):
     name = forms.CharField(max_length=128, help_text="Please enter the coffee name.")
@@ -40,3 +40,10 @@ class UserProfileForm(forms.ModelForm):
     class Meta:
         model = UserProfile
         fields = ('avatar', 'signature')
+
+class CommentForm(forms.ModelForm):
+    comments = forms.CharField(max_length=128, help_text="Please ennter the coomment content.")
+    time = forms.DateTimeField(widget=forms.HiddenInput(), initial=timezone.now)
+    class Meta:
+        model = Comment
+        exclude = ('article',)

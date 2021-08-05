@@ -6,8 +6,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from datetime import datetime
-from coffquiz.models import Coffee, Article, UserProfile
-from coffquiz.forms import CoffeeForm, ArticleForm, UserForm, UserProfileForm
+from coffquiz.models import Coffee, Article, UserProfile, Comment
+from coffquiz.forms import CoffeeForm, ArticleForm, UserForm, UserProfileForm, CommentForm
 from django.contrib.auth.models import User
 from coffquiz.bing_search import run_query
 
@@ -57,10 +57,14 @@ def show_article(request, article_title_slug):
     context_dict = {}
     try:
         article = Article.objects.get(slug=article_title_slug)
+        comments = Comment.objects.filter(article=article)
+
         context_dict['article'] = article
+        context_dict['comments'] = comments
     
     except Coffee.DoesNotExist:
         context_dict['article'] = None
+        context_dict['comments'] = None
     
     return render(request, 'coffquiz/article.html', context=context_dict)
 
@@ -80,6 +84,36 @@ def add_coffee(request):
         else:
             print(form.errors)
     return render(request, 'coffquiz/add_coffee.html', {'form': form})
+
+@login_required
+def add_comment(request, article_title_slug):
+    try:
+        article = Article.objects.get(slug=article_title_slug)
+    except:
+        article = None
+    
+    if article is None:
+        return redirect(reverse('coffquiz:index'))
+
+    user = User.objects.get(username=request.user)
+    
+    form = CommentForm()
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+
+        if form.is_valid():
+            if article:
+                comment = form.save(commit=False)
+                comment.article = article
+                comment.user = user
+                comment.save()
+                return redirect(reverse('coffquiz:show_article', kwargs={'article_title_slug':article_title_slug}))
+            else:
+                print(form.errors)
+
+    context_dict = {'form': form, 'article': article}
+    return render(request, 'coffquiz/add_comment.html', context=context_dict)            
+
 
 @login_required
 def add_article(request, coffee_name_slug):

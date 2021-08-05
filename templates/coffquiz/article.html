@@ -19,4 +19,20 @@
     {% else %}
         The specified article does not exist.
     {% endif %}
+
+    {% if comments %}
+    <ul>
+        {% for comment in comments %}
+            <li>
+                <h3>{{ comment.user }}</h3>
+                <p>{{ comment.time }}</p></br>
+                {{ comment.comments }}
+            </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+        There are no comments exist.
+    {% endif %}
+
+    <a href="{% url 'coffquiz:add_comment' article.slug %}">Add a Comment</a>
 {% endblock %}

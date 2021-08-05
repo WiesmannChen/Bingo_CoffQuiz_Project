@@ -63,8 +63,8 @@ class LikeCoffee(models.Model):
 class Comment(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     article = models.ForeignKey(Article, on_delete=models.CASCADE)
-    content = models.CharField(max_length=128)
+    comments = models.CharField(max_length=128)
     time = models.DateTimeField(default=timezone.now)
 
     def __str__(self):
-        return self.user.username + 'comments' + self.article.title
+        return self.comments
