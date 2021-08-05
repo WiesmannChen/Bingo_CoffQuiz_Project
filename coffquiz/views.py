@@ -351,5 +351,5 @@ class CoffeeSuggestionView(View):
             coffee_list = Coffee.objects.order_by('-likes')
 
         return render(request,
-                      'coffquiz/coffee.html',
+                      'coffquiz/coffeelist.html',
                       {'coffeelist': coffee_list})
