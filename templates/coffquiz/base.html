@@ -35,7 +35,8 @@
                         {% if user.is_authenticated %}
                         <li class="nav-item "><a class="nav-link" href="{% url 'coffquiz:restricted' %}">Restricted</a></li>
                         <a class="nav-link" href="{% url 'coffquiz:profile' user.username %}">Profile</a>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'auth_logout' %}?next=/coffquiz/">Logout</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'auth_logout' %}?next=/coffquiz/">
+                            ut</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'coffquiz:add_coffee' %}">Add Coffee</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'auth_password_change' %}">Change Password</a></li>
                         {% else %}
@@ -76,8 +77,11 @@
         </script> 
         <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script> -->
         <!-- <script>window.jQuery || document.write('<script src="https://getbootstrap.com/docs/4.2/assets/js/vendor/jquery-slim.min.js"><\/script>')</script> -->
-        <script src="https://getbootstrap.com/docs/4.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-zDnhMsjVZfS3hiP7oCBRmfjkQC4fzxVxFhBx8Hkz2aZX8gEvA/jsP3eXRCvzTofP" crossorigin="anonymous"></script>
+        <!-- <script src="https://getbootstrap.com/docs/4.2/dist/js/bootstrap.bundle.min.js" ></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.9.0/feather.min.js"></script>
-        <script src="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.js"></script>
+        <script src="https://getbootstrap.com/docs/4.2/examples/dashboard/dashboard.js"></script> -->
+        <script src="{% static "js/bootstrap.bundle.min.js" %}" ></script>
+        <script src="{% static "js/feather.min.js" %}"></script>
+        <script src="{% static "js/dashboard.js" %}"></script>
     </body>
 </html>

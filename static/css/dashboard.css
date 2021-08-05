@@ -16,6 +16,14 @@ body {
   background-size: cover;
 }
 
+.container img{
+  padding-bottom: 3%;
+}
+
+form{
+  font-weight: 500;
+}
+
 /*
  * Sidebar
  */
