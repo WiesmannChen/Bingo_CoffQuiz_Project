@@ -281,7 +281,7 @@ def get_coffee_list(max_results=0, starts_with=''):
     coffee_list = []
 
     if starts_with:
-        coffee_list = Coffee.objects.filter(name__istartswith=starts_with)
+        coffee_list = Coffee.objects.filter(name__contains=starts_with)
 
     print(coffee_list)
 
