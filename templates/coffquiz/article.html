@@ -11,11 +11,13 @@
 
 {% block body_block %}
     {% if article %}
-        <h1>{{ article.title }}</h1>
-        views: {{ article.views }}
+    <div class="jumbotron p-4">
+        <div class="container">
+            <h1 class="jumbotron-heading">{{ article.title }}</h1>
+            <strong id="like_count">{{ article.views }}</strong> views
+        </div>
+    </div>
         <p>{{ article.content }}</p>
-        {% if user.is_authenticated %}
-        {% endif %}
     {% else %}
         The specified article does not exist.
     {% endif %}
@@ -35,6 +37,7 @@
     {% else %}
         There are no comments exist.
     {% endif %}
-
-    <a href="{% url 'coffquiz:add_comment' article.slug %}">Add a Comment</a>
+    {% if user.is_authenticated %}
+        <a href="{% url 'coffquiz:add_comment' article.slug %}">Add a Comment</a>
+    {% endif %}
 {% endblock %}

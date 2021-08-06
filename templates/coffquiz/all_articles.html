@@ -1,0 +1,30 @@
+{% extends 'coffquiz/base.html' %}
+{% load static %}
+
+{% block title_block %}
+    All Articles
+{% endblock %}
+
+{% block body_block %}
+    <div class="jumbotron p-4"> 
+        <div class="container"> 
+            <h1 class="jumbotron-heading">All Articles</h1>
+        </div> 
+    </div>
+    {% if all_articles %}
+        <ul>
+        {% for article in all_articles %}
+            <li>
+                <a href="{% url 'coffquiz:show_article' article.slug %}">{{ article.title }}</a>
+                {% if article.views > 1 %}
+                    ({{ article.views }} views)
+                {% elif article.views == 1 %}
+                    ({{ article.views }} views)
+                {% endif %}
+            </li>
+        {% endfor %}
+        </ul>
+    {% else %}
+        <strong>No articles currently in this website.</strong><br />
+    {% endif %}
+{% endblock %}

@@ -6,27 +6,11 @@
 {% endblock %}
 
 {% block body_block %}
-    <!-- <h1>Add a Coffee</h1> -->
     <div class="jumbotron p-4"> 
         <div class="container"> 
         <h1 class="jumbotron-heading">Add a Coffee</h1>
         </div> 
        </div> 
-    <!-- <div>
-        <form id="coffee_form" method="post" action="{% url 'coffquiz:add_coffee' %}">
-            {% csrf_token %}
-            {% for hidden in form.hidden_fields %}
-                {{ hidden }}
-            {% endfor %}
-            {% for field in form.visible_fields %}
-                {{ field.errors }}
-                {{ field.help_text }}
-                {{ field }}
-                <br />
-            {% endfor %}
-            <input type="submit" name="submit" value="Create Coffee" />
-        </form>
-    </div> -->
     <div class="container"> 
         <div class="row"> 
             <form role="form" id="coffee_form" method="post" action="{% url 'coffquiz:add_coffee' %}">

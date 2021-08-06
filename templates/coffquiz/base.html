@@ -32,15 +32,15 @@
                     <ul class="navbar-nav mr-auto">
                         <li class="nav-item"><a class="nav-link" href="{% url 'coffquiz:index' %}">Home</a></li>
                         <li class="nav-item "><a class="nav-link" href="{% url 'coffquiz:about' %}">About</a></li>
+                        <li class="nav-item "><a class="nav-link" href="{% url 'coffquiz:all_coffee' %}">Coffee</a></li>
+                        <li class="nav-item "><a class="nav-link" href="{% url 'coffquiz:all_articles' %}">Articles</a></li>
                         {% if user.is_authenticated %}
-                        <li class="nav-item "><a class="nav-link" href="{% url 'coffquiz:restricted' %}">Restricted</a></li>
-                        <a class="nav-link" href="{% url 'coffquiz:profile' user.username %}">Profile</a>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'auth_logout' %}?next=/coffquiz/">Logout</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'coffquiz:add_coffee' %}">Add Coffee</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{% url 'auth_password_change' %}">Change Password</a></li>
+                        <li class="nav-item"></li><a class="nav-link" href="{% url 'coffquiz:profile' user.username %}">My Account</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'auth_logout' %}?next=/coffquiz/">Log out</a></li>
                         {% else %}
-                        <li class="nav-item"><a class="nav-link" href="{% url 'registration_register' %}">Register Here</a></li>
-                        <li class="nav-item "><a class="nav-link" href="{% url 'auth_login' %}">Login</a></li>
+                        <li class="nav-item"><a class="nav-link" href="{% url 'registration_register' %}">Sign up</a></li>
+                        <li class="nav-item "><a class="nav-link" href="{% url 'auth_login' %}">Log in</a></li>
                         {% endif %}
                     </ul>
                 </div>

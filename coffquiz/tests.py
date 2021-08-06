@@ -7,9 +7,6 @@ from django.urls import reverse
 
 from coffquiz.models import Coffee, Article
 
-
-# Create your tests here.
-
 # Model test
 # make sure the number of views for coffee is positve
 class CoffeeMethodTests(TestCase):

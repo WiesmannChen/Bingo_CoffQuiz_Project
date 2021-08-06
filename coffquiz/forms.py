@@ -10,7 +10,7 @@ class CoffeeForm(forms.ModelForm):
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     time = forms.DateTimeField(widget=forms.HiddenInput(), initial=timezone.now)
     picture = forms.ImageField(help_text="Please upload a coffee picture.", required=False)
-    description = forms.CharField(help_text="Please enter the coffee introduction.")
+    description = forms.CharField(widget=forms.Textarea, help_text="Please enter the coffee introduction.")
 
     class Meta:
         model = Coffee
@@ -23,7 +23,7 @@ class ArticleForm(forms.ModelForm):
     views = forms.IntegerField(widget=forms.HiddenInput(), initial=0)
     time = forms.DateTimeField(widget=forms.HiddenInput(), initial=timezone.now)
     picture = forms.ImageField(help_text="Please upload a coffee picture.", required=False)
-    content = forms.CharField(help_text="Please enter the content.") 
+    content = forms.CharField(widget=forms.Textarea, help_text="Please enter the content.") 
 
     class Meta:
         model = Article
@@ -42,7 +42,7 @@ class UserProfileForm(forms.ModelForm):
         fields = ('avatar', 'signature')
 
 class CommentForm(forms.ModelForm):
-    comments = forms.CharField(max_length=128, help_text="Please ennter the coomment content.")
+    comments = forms.CharField(max_length=128, widget=forms.Textarea, help_text="Please enter the comment content.")
     time = forms.DateTimeField(widget=forms.HiddenInput(), initial=timezone.now)
     class Meta:
         model = Comment

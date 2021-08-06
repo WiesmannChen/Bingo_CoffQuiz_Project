@@ -68,6 +68,20 @@ def show_article(request, article_title_slug):
     
     return render(request, 'coffquiz/article.html', context=context_dict)
 
+def all_coffee(request):
+    allCoffee = Coffee.objects.all().order_by('-likes')
+    context_dict = {}
+    context_dict['all_coffee'] = allCoffee
+
+    return render(request, 'coffquiz/all_coffee.html', context=context_dict)
+
+def all_articles(request):
+    allArticles = Article.objects.all().order_by('-views')
+    context_dict = {}
+    context_dict['all_articles'] = allArticles
+
+    return render(request, 'coffquiz/all_Articles.html', context=context_dict)
+
 @login_required
 def add_coffee(request):
     user = User.objects.get(username=request.user)
@@ -145,66 +159,6 @@ def add_article(request, coffee_name_slug):
     context_dict = {'form': form, 'coffee': coffee}
     return render(request, 'coffquiz/add_article.html', context=context_dict)
 
-def register(request):
-    registered = False
-
-    if request.method == 'POST':
-        user_form = UserForm(request.POST)
-        profile_form = UserProfileForm(request.POST)
-
-        if user_form.is_valid() and profile_form.is_valid():
-            user = user_form.save()
-
-            user.set_password(user.password)
-            user.save()
-
-            profile = profile_form.save(commit=False)
-            profile.user = user
-            
-            if 'avatar' in request.FILES:
-                profile.picture = request.FILES['avatar']
-
-            profile.save()
-
-            registered = True
-        else:
-            print(user_form.errors, profile_form.errors)
-    else:
-        user_form = UserForm()
-        profile_form = UserProfileForm()
-    
-    context_dict = {'user_form': user_form, 'profile_form': profile_form, 'registered': registered}
-    return render(request, 'coffquiz/register.html', context=context_dict)
-
-def user_login(request):
-    if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-
-        user = authenticate(username=username, password=password)
-
-        if user:
-            if user.is_active:
-                login(request, user)
-                return redirect(reverse('coffquiz:index'))
-            else:
-                return HttpResponse("Your CoffQuiz account is disabled.")
-        else:
-            print(f"Invalid login details: {username}, {password}")
-            return HttpResponse("Invalid login details supplied.")
-    else:
-        return render(request, 'coffquiz/login.html')
-
-@login_required
-def my_account(request):
-
-    return render(request, 'coffquiz/my_account.html')
-
-@login_required
-def user_logout(request):
-    logout(request)
-    return redirect(reverse('coffquiz:index'))
-
 def get_server_side_cookie(request, cookie, default_val=None):
     val = request.session.get(cookie)
     if not val:
@@ -224,21 +178,6 @@ def visitor_cookie_handler(request):
         request.session['last_visit'] = last_visit_cookie
         
     request.session['visits'] = visits
-
-@login_required
-def restricted(request):
-    return render(request, 'coffquiz/restricted.html')
-
-# def search(request):
-#     result_list = []
-
-#     if request.method == 'POST':
-#         query = request.POST['query'].strip()
-
-#         if query:
-#             result_list = run_query(query)
-
-#     return render(request, 'coffquiz/search.html', {'result_list': result_list})
 
 # This is used to record the number of views of the article
 def goto_article(request):
@@ -314,10 +253,6 @@ class ProfileView(View):
         context_dict = {'user_profile': user_profile, 'selected_user': user, 'form': form}
         return render(request, 'coffquiz/profile.html', context_dict)
 
-
-
-
-
 # this class is for add likes
 class LikeCategoryView(View):
     @method_decorator(login_required())
@@ -340,7 +275,6 @@ class LikeCategoryView(View):
 '''
     The following part is for coffee search function in siderbar
 '''
-
 
 def get_coffee_list(max_results=0, starts_with=''):
     # this function is for get the coffee list
@@ -375,9 +309,3 @@ class CoffeeSuggestionView(View):
         return render(request,
                       'coffquiz/coffeelist.html',
                       {'coffeelist': coffee_list})
-
-
-
-
-
-
