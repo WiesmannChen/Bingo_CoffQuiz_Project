@@ -13,9 +13,10 @@ class Coffee(models.Model):
     description = models.TextField(blank=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
+        if self.views<0:
+            self.views=0
         super(Coffee, self).save(*args, **kwargs)
 
     class Meta:
