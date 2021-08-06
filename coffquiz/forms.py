@@ -46,4 +46,4 @@ class CommentForm(forms.ModelForm):
     time = forms.DateTimeField(widget=forms.HiddenInput(), initial=timezone.now)
     class Meta:
         model = Comment
-        exclude = ('article',)
+        exclude = ('article', 'user',)
